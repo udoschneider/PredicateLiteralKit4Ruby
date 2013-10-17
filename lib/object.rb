@@ -1,19 +1,4 @@
-require "PredicateLiteralKit4Ruby/version"
-
-module PredicateLiteral
-
-  require "expression"
-  require "keypath_expression"
-  require "variable_expression"
-  require "constant_expression"
-  require "function_expression"
-  require "self_expression"
-  require "boolean_expression"
-  require "aggregate_expression"
-
-  require "predicate"
-  require "compound_predicate"
-  require "comparison_predicate"
+class Object
 
   def self.parse(array)
     type = array[0]
@@ -41,6 +26,10 @@ module PredicateLiteral
       else
         raise "Unknown Predicate type (#{array.inspect})!"
     end
+  end
+
+  def build_arel(arel_table)
+    raise "Subclass"
   end
 
 end
