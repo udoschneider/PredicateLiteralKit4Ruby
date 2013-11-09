@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version = PredicateLiteralKit4Ruby::VERSION
   spec.authors = ["Udo Schneider"]
   spec.email = ["Udo.Schneider@homeaddress.de"]
-  spec.description = %q{TODO: Write a gem description}
-  spec.summary = %q{TODO: Write a gem summary}
+  spec.description = %q{Parse Cappuccino Literal predicated and sort descriptors to arel expressions}
+  spec.summary = %q{Parse Cappuccino Literal predicated and sort descriptors to arel expressions}
   spec.homepage = ""
   spec.license = "MIT"
 
