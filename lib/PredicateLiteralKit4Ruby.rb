@@ -1,19 +1,11 @@
 require "PredicateLiteralKit4Ruby/version"
 
+LITERAL_KEY_MAPPING = {}
+
 module PredicateLiteral
 
   require "expression"
-  require "keypath_expression"
-  require "variable_expression"
-  require "constant_expression"
-  require "function_expression"
-  require "self_expression"
-  require "boolean_expression"
-  require "aggregate_expression"
-
   require "predicate"
-  require "compound_predicate"
-  require "comparison_predicate"
 
   def self.parse(array)
     type = array[0]
@@ -41,6 +33,48 @@ module PredicateLiteral
       else
         raise "Unknown Predicate type (#{array.inspect})!"
     end
+  end
+
+end
+
+module SortDescriptorLiteral
+
+  def self.parse(array)
+    array.map do |each|
+      SortDescriptor.parse(each)
+    end
+  end
+
+  class SortDescriptor
+
+    attr_reader :key, :selector, :ascending
+
+    def self.parse(array)
+      self.new(array[0], array[1], array[2])
+    end
+
+    def initialize(key, selector, ascending)
+      @key = key
+      @selector = selector
+      @ascending = ascending
+    end
+
+    def underscore(camel_cased_word)
+      camel_cased_word.to_s.gsub(/::/, '/').
+          gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+          gsub(/([a-z\d])([A-Z])/, '\1_\2').
+          tr("-", "_").
+          downcase
+    end
+
+    def build_arel(arel_table)
+      key = underscore(@key) unless (key = LITERAL_KEY_MAPPING[@key])
+      key = key.to_sym
+      puts "KEY: #{key}"
+      return arel_table[key].asc if @ascending
+      return arel_table[key].desc
+    end
+
   end
 
 end

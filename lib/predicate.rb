@@ -4,4 +4,6 @@ class Predicate
     raise "Subclass"
   end
 
+  require "predicates/compound_predicate"
+  require "predicates/comparison_predicate"
 end
